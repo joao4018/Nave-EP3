@@ -1,31 +1,35 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package ep2;
 
-/**
- *
- * @author joao
- */
+import java.util.concurrent.ThreadLocalRandom;
+
 public class Aliens extends Sprite {
+    
+    private static final int LARGURA_TELA = 500;
+    private static final int VELOCIDADE = 1;
     
     public Aliens(int x, int y) {
         super(x, y);
         Alen();
+        
+        this.x = ThreadLocalRandom.current().nextInt(0,500);
+        
+  
     }
     
     private void Alen(){
         loadImage("images/alien_EASY.png"); 
+        
     }
     
     public void move() {
-        
-        
-     
         // Moves the spaceship on the verical axis
-        y += 1;
+        if(this.y > LARGURA_TELA){
+            this.y = 0;
+          
+            
+        }
+        y += VELOCIDADE;
         
     }
     
