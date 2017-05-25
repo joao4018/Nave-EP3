@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,11 +20,7 @@ public final class Map extends JPanel implements ActionListener {
 
     private final int SPACESHIP_X = 220;
     private final int SPACESHIP_Y = 430;
-    private int[][] coordenadas = { { 2380, 29 }, { 2600, 59 }, { 1380, 89 },
-			{ 780, 109 }, { 580, 139 }, { 880, 239 }, { 790, 259 },
-			{ 760, 50 }, { 790, 150 }, { 1980, 209 }, { 560, 45 }, { 510, 70 },
-			{ 930, 159 }, { 590, 80 }, { 530, 60 }, { 940, 59 }, { 990, 30 },
-			{ 920, 200 }, { 900, 259 }, { 660, 50 }, };
+   
     private final Timer timer_map;
     private final Timer timer_aliens;
     
@@ -50,7 +47,7 @@ public final class Map extends JPanel implements ActionListener {
         
         
         timer_aliens = new Timer(500, new ActionListener() {
-    public void actionPerformed(ActionEvent evt) {
+        public void actionPerformed(ActionEvent evt) {
 
     aliens.add(new Aliens(0, 0));
      
@@ -76,7 +73,7 @@ public final class Map extends JPanel implements ActionListener {
         // Draw spaceship
         g.drawImage(spaceship.getImage(), spaceship.getX(), spaceship.getY(), this);
         
-        for (int i = 0; i < aliens.size(); i++) {
+       for (int i = 0; i < aliens.size(); i++) {
 				Aliens in = aliens.get(i);
 				g.drawImage(in.getImage(), in.getX(), in.getY(), this);
 			}
@@ -87,18 +84,22 @@ public final class Map extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
        
         updateSpaceship();
+        //checarColisoes();
+        
       
     for (int i = 0; i < aliens.size(); i++) {
 			Aliens in = aliens.get(i);
 
 			if (in.isVisible()) {
 				in.move();
-			} else {
-				aliens.remove(i);
-			}
+			} else
+                            aliens.remove(i);
+                            
+			
+			
 		}
       
-       
+        checarColisoes();
         repaint();
     }
     
@@ -130,7 +131,27 @@ public final class Map extends JPanel implements ActionListener {
        
     }
     
-  
+    public void checarColisoes() {
+		Rectangle formaNave = spaceship.getBounds();
+		Rectangle formaInimigo;
+		
+
+		for (int i = 0; i < aliens.size(); i++) {
+
+			Aliens tempInimigo = aliens.get(i);
+			formaInimigo = tempInimigo.getBounds();
+                        Aliens in = aliens.get(i);
+
+			if (formaNave.intersects(formaInimigo)) {
+				//spaceship.setVisible(false);
+				tempInimigo.setVisible(false);                             
+                                in.explode();
+                                
+				//emJogo = false;
+			}
+                        
+		}
+    }
     
     private class KeyListerner extends KeyAdapter {
         

@@ -4,8 +4,8 @@ import java.awt.event.KeyEvent;
 
 public class Spaceship extends Sprite {
     
-    private static final int MAX_SPEED_X = 2;
-    private static final int MAX_SPEED_Y = 1;
+    private static final int MAX_SPEED_X = 3;
+    private static final int MAX_SPEED_Y = 3;
    
     private int speed_x;
     private int speed_y;

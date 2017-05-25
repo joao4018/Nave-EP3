@@ -6,7 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Aliens extends Sprite {
     
     private static final int LARGURA_TELA = 500;
-    private static final int VELOCIDADE = 1;
+    private static final int VELOCIDADE = 2;
     
     public Aliens(int x, int y) {
         super(x, y);
@@ -20,6 +20,10 @@ public class Aliens extends Sprite {
     private void Alen(){
         loadImage("images/alien_EASY.png"); 
         
+    }
+    
+    public void explode(){
+        loadImage("images/explosion.png");  
     }
     
     public void move() {
