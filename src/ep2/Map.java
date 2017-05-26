@@ -15,10 +15,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import java.util.ArrayList;
+import java.util.List;
 
 public final class Map extends JPanel implements ActionListener {
 
-    private final int SPACESHIP_X = 220;
+        private final int SPACESHIP_X = 220;
     private final int SPACESHIP_Y = 430;
    
     private final Timer timer_map;
@@ -26,7 +27,8 @@ public final class Map extends JPanel implements ActionListener {
     
     private final Image background;
     private final Spaceship spaceship;
-    private final ArrayList<Aliens> aliens = new ArrayList<>();;
+    private final ArrayList<Aliens> aliens = new ArrayList<>();
+    
 
     public Map() {
         
@@ -77,6 +79,13 @@ public final class Map extends JPanel implements ActionListener {
 				Aliens in = aliens.get(i);
 				g.drawImage(in.getImage(), in.getX(), in.getY(), this);
 			}
+       List<Missile> misseis = spaceship.getMissiles();
+       for (int i = 0; i < misseis.size(); i++) {
+				Missile in = misseis.get(i);
+				g.drawImage(in.getImage(), in.getX(), in.getY(), this);
+			}
+        g.setColor(Color.YELLOW);
+        g.drawString("Inimigos " + aliens.size(), 15, 10);
         
     }
     
@@ -84,7 +93,7 @@ public final class Map extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
        
         updateSpaceship();
-        //checarColisoes();
+        
         
       
     for (int i = 0; i < aliens.size(); i++) {
@@ -94,6 +103,18 @@ public final class Map extends JPanel implements ActionListener {
 				in.move();
 			} else
                             aliens.remove(i);
+                            
+			
+			
+		}
+    List<Missile> misseis = spaceship.getMissiles();
+    for (int i = 0; i < misseis.size(); i++) {
+			Missile in = misseis.get(i);
+
+			if (in.isVisible()) {
+				in.move();
+			} else
+                            misseis.remove(i);
                             
 			
 			
@@ -134,7 +155,8 @@ public final class Map extends JPanel implements ActionListener {
     public void checarColisoes() {
 		Rectangle formaNave = spaceship.getBounds();
 		Rectangle formaInimigo;
-		
+                Rectangle formaMissil;
+		List<Missile> misseis = spaceship.getMissiles();
 
 		for (int i = 0; i < aliens.size(); i++) {
 
@@ -149,8 +171,29 @@ public final class Map extends JPanel implements ActionListener {
                                 
 				//emJogo = false;
 			}
+                }
+		
+
+		for (int i = 0; i < misseis.size(); i++) {
+			Missile tempMissel = misseis.get(i);
+			formaMissil = tempMissel.getBounds();
                         
+
+			for (int j = 0; j < aliens.size(); j++) {
+				Aliens tempInimigo = aliens.get(j);
+				formaInimigo = tempInimigo.getBounds();
+                                Aliens in = aliens.get(j);
+
+				if (formaMissil.intersects(formaInimigo)) {
+					tempInimigo.setVisible(false);
+					tempMissel.setVisible(false);
+                                         in.explode();
+				}
+			}
 		}
+               
+                        
+		
     }
     
     private class KeyListerner extends KeyAdapter {
