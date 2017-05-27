@@ -9,7 +9,8 @@ public class Spaceship extends Sprite {
     private static final int MAX_SPEED_X = 3;
     private static final int MAX_SPEED_Y = 3;
     private List<Missile> misseis;
-    
+    private int lives = 5;
+    private int score = 0;
     private int speed_x;
     private int speed_y;
 
@@ -36,7 +37,18 @@ public class Spaceship extends Sprite {
     public List<Missile> getMissiles(){
         return misseis;
     }
-    
+    public void setDano(int dano){
+        lives -= dano;
+    }
+    public int getDano(){
+        return lives;
+    }
+    public void setScore(int score){
+       this.score += score;
+    }
+    public int getScore(){
+        return score;
+    }
     public void move() {
         
         // Limits the movement of the spaceship to the side edges.
@@ -65,8 +77,7 @@ public class Spaceship extends Sprite {
 
         int key = e.getKeyCode();
         
-        if(key == KeyEvent.VK_SPACE)
-            balaPerdida();
+        
         // Set speed to move to the left
         if (key == KeyEvent.VK_LEFT) { 
             speed_x = -1 * MAX_SPEED_X;
@@ -93,7 +104,10 @@ public class Spaceship extends Sprite {
     public void keyReleased(KeyEvent e) {
 
         int key = e.getKeyCode();
-
+        
+        if(key == KeyEvent.VK_SPACE)
+            balaPerdida();
+        
         if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_RIGHT) {
             speed_x = 0;
         }
