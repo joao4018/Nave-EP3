@@ -24,7 +24,7 @@ public final class Map extends JPanel implements ActionListener {
    
     private final Timer timer_map;
     private final Timer timer_aliens;
-    
+    private boolean runs;
     private final Image background;
     private final Spaceship spaceship;
     private final ArrayList<Aliens> aliens = new ArrayList<>();
@@ -48,7 +48,7 @@ public final class Map extends JPanel implements ActionListener {
         timer_map.start();
         
         
-        timer_aliens = new Timer(500, new ActionListener() {
+        timer_aliens = new Timer(150, new ActionListener() {
         public void actionPerformed(ActionEvent evt) {
 
     aliens.add(new Aliens(0, 0));
@@ -62,17 +62,17 @@ public final class Map extends JPanel implements ActionListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        
-        g.drawImage(this.background, 0, 0, null);
-       
+        if(!runs){
+        g.drawImage(this.background, 0, 0, null);  
         draw(g);
-
-        Toolkit.getDefaultToolkit().sync();
+        }
+       Toolkit.getDefaultToolkit().sync();
     }
 
     private void draw(Graphics g) {
                
         // Draw spaceship
+      if(!runs){
         g.drawImage(spaceship.getImage(), spaceship.getX(), spaceship.getY(), this);
         
        for (int i = 0; i < aliens.size(); i++) {
@@ -84,21 +84,25 @@ public final class Map extends JPanel implements ActionListener {
 				Missile in = misseis.get(i);
 				g.drawImage(in.getImage(), in.getX(), in.getY(), this);
 			}
-        g.setColor(Color.YELLOW);
-        g.drawString("Inimigos " + aliens.size(), 15, 10);
-        
+        g.setColor(Color.RED);
+        g.drawString("Lives: " + spaceship.getDano(), 10, 10);
+        g.setColor(Color.GREEN);
+        g.drawString("Score: " + spaceship.getScore(), 10, 25);
+       }
     }
     
     @Override
     public void actionPerformed(ActionEvent e) {
-       
+        
+          
+               
         updateSpaceship();
         
         
       
     for (int i = 0; i < aliens.size(); i++) {
 			Aliens in = aliens.get(i);
-
+                        in.setImagem(spaceship.getScore());
 			if (in.isVisible()) {
 				in.move();
 			} else
@@ -165,11 +169,16 @@ public final class Map extends JPanel implements ActionListener {
                         Aliens in = aliens.get(i);
 
 			if (formaNave.intersects(formaInimigo)) {
-				//spaceship.setVisible(false);
-				tempInimigo.setVisible(false);                             
+				spaceship.setDano(in.getDanos());
+				tempInimigo.setVisible(false);                               
                                 in.explode();
+                        if (spaceship.getDano() <= 0){
+                                this.runs  = true;
+                                spaceship.setVisible(false);
                                 
-				//emJogo = false;
+                        }        
+                                
+				
 			}
                 }
 		
@@ -187,7 +196,8 @@ public final class Map extends JPanel implements ActionListener {
 				if (formaMissil.intersects(formaInimigo)) {
 					tempInimigo.setVisible(false);
 					tempMissel.setVisible(false);
-                                         in.explode();
+                                        in.explode();
+                                        spaceship.setScore(in.getScore());
 				}
 			}
 		}
