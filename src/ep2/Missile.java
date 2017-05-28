@@ -18,10 +18,6 @@ public class Missile extends Sprite {
     public void move() {
         
         y -= 4.5;
-        
-        /*if (y > Game.getHeight()) {
-            visible = false;
-        }*/
     }
     
 }

@@ -3,10 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/joao/NetBeansProjects/EP2/src/ep2/Aliens.java</file>
-            <file>file:/home/joao/NetBeansProjects/EP2/src/ep2/Application.java</file>
-            <file>file:/home/joao/NetBeansProjects/EP2/src/ep2/Sprite.java</file>
-            <file>file:/home/joao/NetBeansProjects/EP2/src/ep2/Map.java</file>
+            <file>file:/home/jhony/NetBeansProjects/EP2/src/ep2/Aliens.java</file>
+            <file>file:/home/jhony/NetBeansProjects/EP2/src/ep2/Missile.java</file>
+            <file>file:/home/jhony/NetBeansProjects/EP2/src/ep2/Game.java</file>
+            <file>file:/home/jhony/NetBeansProjects/EP2/src/ep2/Application.java</file>
+            <file>file:/home/jhony/NetBeansProjects/EP2/src/ep2/Map.java</file>
         </group>
     </open-files>
 </project-private>

@@ -40,6 +40,9 @@ public class Spaceship extends Sprite {
     public void setDano(int dano){
         lives -= dano;
     }
+    public void setLive(){
+        lives = 5;
+    }
     public int getDano(){
         return lives;
     }
