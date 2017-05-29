@@ -1,10 +1,12 @@
 package ep2;
 
+import static ep2.Map.menu;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 
 
 public class Application extends JFrame {
+    
     
     public Application(){
         add(new Map());
@@ -15,9 +17,16 @@ public class Application extends JFrame {
         setLocationRelativeTo(null);
     }
     
-    public static void main(String[] args) {    
+    public static void main(String[] args) {
+        
+        //menu = new Menu();
+        
         EventQueue.invokeLater(new Runnable() {
             public void run(){
+                //menu = new Menu();
+                
+                //menu.render();
+                
                 Application app = new Application();
                 app.setVisible(true);
             }

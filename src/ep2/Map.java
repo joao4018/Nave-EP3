@@ -23,10 +23,9 @@ public final class Map extends JPanel implements ActionListener {
     private final int SPACESHIP_Y = 430;   
     private final Timer timer_map;
     private final Timer timer_aliens;
-    private boolean runs;
     private final Image background;
     private final Spaceship spaceship;
-    private Menu menu;
+    public static Menu menu;
     private final ArrayList<Aliens> aliens = new ArrayList<>();
     public static enum STATE{
         MENU,
@@ -40,12 +39,13 @@ public final class Map extends JPanel implements ActionListener {
         
         addKeyListener(new KeyListerner());
         addMouseListener(new MouseInput());
+        
         setFocusable(true);
         setDoubleBuffered(true);
         ImageIcon image = new ImageIcon("images/space.jpg");
         this.background = image.getImage();
         
-        
+        menu = new Menu();
         spaceship = new Spaceship(SPACESHIP_X, SPACESHIP_Y);                     
         timer_map = new Timer(Game.getDelay(), this);     
         timer_map.start();
@@ -57,12 +57,15 @@ public final class Map extends JPanel implements ActionListener {
                                             }          
                                 });     
          timer_aliens.start();
+         
                             
     }
    
     @Override
     public void paintComponent(Graphics g) {
-        menu = new Menu();
+        
+       
+        timer_aliens.start();
         super.paintComponent(g);
         g.drawImage(this.background, 0, 0, null);  
         draw(g);
@@ -73,9 +76,11 @@ public final class Map extends JPanel implements ActionListener {
        if(State == STATE.GAME)        
             con(g);
        
-       else if(State == STATE.MENU)
-           menu.render(g);
-       
+       else if(State == STATE.MENU){
+           
+           State = STATE.HELP;
+           menu.render();
+       }
        
                
     }
@@ -89,6 +94,7 @@ public final class Map extends JPanel implements ActionListener {
         UpdateMissiles();         
         checarColisoes();
         repaint();    
+        Clear();
     }
     
     /*private void dranMissionAccomplished(Graphics g) {
@@ -140,16 +146,17 @@ public final class Map extends JPanel implements ActionListener {
         }
     }
     public void Clear(){
-        
-        if(spaceship.getDano()<=0){
+        if(State != STATE.GAME){
             for (int i = 0; i < aliens.size(); i++){
-                Aliens tempInimigo = aliens.get(i);
-                tempInimigo.setVisible(false); 
+                Aliens in = aliens.get(i);
+                in.setVisible(false);
                 aliens.remove(i);                           			
-            }
-       
-            spaceship.setScore(0);
+        }
+            spaceship.resetPosition();            //spaceship = null;
+            //new Spaceship(SPACESHIP_X, SPACESHIP_Y);
+            spaceship.resetScore();
             spaceship.setLive();
+            
         }
         
     }

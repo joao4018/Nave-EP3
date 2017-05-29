@@ -1,5 +1,4 @@
 package ep2;
-
 public final class Game {
     
     private static final int WIDTH = 500;
