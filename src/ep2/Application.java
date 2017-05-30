@@ -19,15 +19,13 @@ public class Application extends JFrame {
     
     public static void main(String[] args) {
         
-        //menu = new Menu();
+        menu = new Menu();
         
         EventQueue.invokeLater(new Runnable() {
             public void run(){
-                //menu = new Menu();
-                
-                //menu.render();
                 
                 Application app = new Application();
+                
                 app.setVisible(true);
             }
         });

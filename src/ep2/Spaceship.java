@@ -1,5 +1,7 @@
 package ep2;
 
+import ep2.Map.STATE;
+import static ep2.Map.State;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +67,8 @@ public class Spaceship extends Sprite {
     public void move() {
         
         // Limits the movement of the spaceship to the side edges.
-        if((speed_x < 0 && x <= 0) || (speed_x > 0 && x + width >= Game.getWidth())){
+        if(((speed_x < 0 && x <= 0) || (speed_x > 0 && x + width >= Game.getWidth()))
+                ){
             speed_x = 0;
         }
         
@@ -73,12 +76,17 @@ public class Spaceship extends Sprite {
         x += speed_x;
         
         // Limits the movement of the spaceship to the vertical edges.
-        if((speed_y < 0 && y <= 0) || (speed_y > 0 && y + height >= Game.getHeight())){
+        if(((speed_y < 0 && y <= 0) || (speed_y > 0 && y + height >= Game.getHeight()))){
             speed_y = 0;
         }
 
         // Moves the spaceship on the verical axis
+        
         y += speed_y;
+        
+    }
+    public void resetMove(){
+       
         
     }
     public void balaPerdida(){
@@ -113,6 +121,8 @@ public class Spaceship extends Sprite {
         }
         
     }
+  
+    
     
     public void keyReleased(KeyEvent e) {
 

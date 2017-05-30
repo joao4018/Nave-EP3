@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Font;
 import java.awt.FontMetrics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
@@ -27,10 +28,17 @@ public final class Map extends JPanel implements ActionListener {
     private final Spaceship spaceship;
     public static Menu menu;
     private final ArrayList<Aliens> aliens = new ArrayList<>();
+    public Rectangle playButton = new Rectangle(380,15,100,30);
+    private void keyPressed(KeyEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     public static enum STATE{
         MENU,
         GAME,
-        HELP
+        HELP,
+        GAMEOVER,
+        PAUSE,
+        PLAY
     };
     
     public static STATE State = STATE.MENU;
@@ -44,7 +52,6 @@ public final class Map extends JPanel implements ActionListener {
         setDoubleBuffered(true);
         ImageIcon image = new ImageIcon("images/space.jpg");
         this.background = image.getImage();
-        
         menu = new Menu();
         spaceship = new Spaceship(SPACESHIP_X, SPACESHIP_Y);                     
         timer_map = new Timer(Game.getDelay(), this);     
@@ -65,22 +72,40 @@ public final class Map extends JPanel implements ActionListener {
     public void paintComponent(Graphics g) {
         
        
-        timer_aliens.start();
+        
         super.paintComponent(g);
-        g.drawImage(this.background, 0, 0, null);  
+        g.drawImage(this.background, 0, 0, null); 
+        if(State == STATE.GAME){
+        Graphics2D g2d = (Graphics2D)g;
+        Font fnt1 = new Font("italic",Font.BOLD,20);
+        g.setFont(fnt1);
+        g.setColor(Color.BLUE);
+        g.drawString("Pause",playButton.x + 17 ,playButton.y +20);
+        g.setColor(Color.BLACK);
+        g2d.draw(playButton);
+        }else if(State == STATE.PAUSE){ 
+        Graphics2D g2d = (Graphics2D)g;
+        Font fnt1 = new Font("italic",Font.BOLD,20);
+        g.setFont(fnt1);
+        g.setColor(Color.BLUE);
+        g.drawString("Play",playButton.x + 17 ,playButton.y +20);
+        g.setColor(Color.BLACK);
+            
+        }
         draw(g);
         Toolkit.getDefaultToolkit().sync();
     }
 
     private void draw(Graphics g) {
-       if(State == STATE.GAME)        
+       if(State == STATE.GAME || State == STATE.PAUSE)        
             con(g);
        
        else if(State == STATE.MENU){
            
-           State = STATE.HELP;
-           menu.render();
+           
+           menu.render(g);
        }
+       else menu.render2(g);
        
                
     }
@@ -128,9 +153,9 @@ public final class Map extends JPanel implements ActionListener {
         for (int i = 0; i < aliens.size(); i++){
             Aliens in = aliens.get(i);
             in.setImagem(spaceship.getScore());
-            if(in.isVisible()){
+            if(in.isVisible() && State == STATE.GAME){
 		in.move();
-            }else
+            }else if(!in.isVisible())
                 aliens.remove(i);                           			
         }
     }
@@ -146,16 +171,21 @@ public final class Map extends JPanel implements ActionListener {
         }
     }
     public void Clear(){
-        if(State != STATE.GAME){
+        if(State != STATE.GAME && State != STATE.PAUSE){
             for (int i = 0; i < aliens.size(); i++){
                 Aliens in = aliens.get(i);
                 in.setVisible(false);
                 aliens.remove(i);                           			
         }
-            spaceship.resetPosition();            //spaceship = null;
+            spaceship.resetPosition();
+            spaceship.setVisible(false);
+            
+            //spaceship = null;
             //new Spaceship(SPACESHIP_X, SPACESHIP_Y);
             spaceship.resetScore();
             spaceship.setLive();
+            
+            
             
         }
         
@@ -178,7 +208,7 @@ public final class Map extends JPanel implements ActionListener {
                             tempInimigo.setVisible(false);                               
                             in.explode();
                             if (spaceship.getDano() <= 0){
-                            State  = State.MENU;
+                            State  = State.GAMEOVER;
                             spaceship.setVisible(false);
                             }                                        				
 			}
@@ -236,7 +266,8 @@ private void con(Graphics g){
             Missile in = misseis.get(i);
             g.drawImage(in.getImage(), in.getX(), in.getY(), this);
 	}
-        
+        Font fnt1 = new Font("italic",Font.BOLD,12);
+        g.setFont(fnt1);
         g.setColor(Color.RED);
         g.drawString("Lives: " + spaceship.getDano(), 10, 10);
         g.setColor(Color.GREEN);

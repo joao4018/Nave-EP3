@@ -23,8 +23,9 @@ public class MouseInput implements MouseListener{
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         int mx = e.getX();
         int my = e.getY();
-        
-        if(mx >= 200 && mx <= 80 +220){
+        //public Rectangle playButton = new Rectangle(380,15,100,30);
+        if(Map.State == Map.State.MENU){
+            if(mx >= 200 && mx <= 80 +220){
             if(my >= 150 && my <= 200){
             Map.State = Map.State.GAME;
         }
@@ -36,14 +37,66 @@ public class MouseInput implements MouseListener{
         }
         if(mx >= 200 && mx <= 80 +220){
             if(my >= 350 && my <= 400){
-                System.exit(1);
+                System.exit(0);
+        }
+        }
+    }//public Rectangle playButton = new Rectangle(380,15,100,30);
+        if(Map.State == Map.State.GAME){
+            if(mx >= 380 && mx <= 480)
+            if(my >= 15 && my <= 45)
+            Map.State = Map.State.PAUSE;
+        }
+        
+        else if(Map.State == Map.State.PAUSE)
+            if(mx >= 380 && mx <= 480)
+            if(my >= 15 && my <= 45)
+            Map.State = Map.State.GAME;
+       
+        if(Map.State == Map.State.GAMEOVER){
+            if(mx >= 200 && mx <= 80 +220){
+            if(my >= 150 && my <= 200){
+            
+        }
+        }
+        if(mx >= 200 && mx <= 80 +220){
+            if(my >= 250 && my <= 300){
+             Map.State = Map.State.MENU;
+        }
+        }
+        if(mx >= 200 && mx <= 80 +220){
+            if(my >= 350 && my <= 400){
+                System.exit(0);
         }
         }
     }
-
+    
+    }
+    
+   /* public void mouseMoved(MouseEvent e){
+          int mx = e.getX();
+        int my = e.getY();
+        
+        if(mx >= 200 && mx <= 80 +220){
+            if(my >= 150 && my <= 200){
+                System.out.println("Porra");
+        }
+        }
+        if(mx >= 200 && mx <= 80 +220){
+            if(my >= 350 && my <= 400){
+                System.exit(1);
+        }
+        }
+        if(mx >= 200 && mx <= 80 +220){
+            if(my >= 350 && my <= 400){
+                System.exit(0);
+        }
+        }
+    }
+*/
     @Override
     public void mouseClicked(MouseEvent e) {
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       
+// throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
