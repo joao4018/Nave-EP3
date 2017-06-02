@@ -24,18 +24,20 @@ public final class Map extends JPanel implements ActionListener {
     private final int SPACESHIP_X = 220;
     private final int SPACESHIP_Y = 430; 
     private int i = 0;
-    private int qtd = 20;
+    private int qtd = 40;
     private int count = 0, d = 0;
     
     private final Timer timer_map;
     private final Timer timer_aliens;
     private final Image background;
     private final Image backgrounds;
+    private final Image backgroundsSpace;
     private final Spaceship spaceship;
     public static Menu menu;
     private Sound som;
     private Sound somfundo;
     private Sound gameover;
+    private Sound game;
    
     private final ArrayList<Aliens> aliens = new ArrayList<>();
     public Rectangle playButton = new Rectangle(380,15,100,30);
@@ -58,6 +60,7 @@ public final class Map extends JPanel implements ActionListener {
         som = new Sound("boom");
         somfundo = new Sound("fundo");
         gameover = new Sound("gameover");
+        game = new Sound("fundoGame");
         setFocusable(true);
         setDoubleBuffered(true);
         ImageIcon image = new ImageIcon("images/images.gif");
@@ -65,6 +68,9 @@ public final class Map extends JPanel implements ActionListener {
         
         ImageIcon images = new ImageIcon("images/giphy.gif");
         this.backgrounds = images.getImage();
+        
+        ImageIcon imagesSpace = new ImageIcon("images/space.jpg");
+        this.backgroundsSpace = imagesSpace.getImage();
         
         menu = new Menu();
         spaceship = new Spaceship(SPACESHIP_X, SPACESHIP_Y);                     
@@ -88,14 +94,18 @@ public final class Map extends JPanel implements ActionListener {
        
         
         super.paintComponent(g);
-        if(State == STATE.GAME || State == STATE.PAUSE) 
-        g.drawImage(this.background, 0, 0, null); 
         
-        if(State != STATE.GAME && State != STATE.PAUSE) 
+  
+        
+        if(State == STATE.PAUSE)
+           g.drawImage(this.backgroundsSpace, 0, 0, null); 
+        
+        else if(State != STATE.GAME && State != STATE.PAUSE) 
         g.drawImage(this.backgrounds, 0, 0, null); 
         
         if(State == STATE.GAME){
         Graphics2D g2d = (Graphics2D)g;
+        g.drawImage(this.background, 0, 0, null); 
         Font fnt1 = new Font("italic",Font.BOLD,20);
         g.setFont(fnt1);
         g.setColor(Color.WHITE);
@@ -120,25 +130,31 @@ public final class Map extends JPanel implements ActionListener {
         
         
        if(State == STATE.GAME || State == STATE.PAUSE) 
-       {    d = 1;
+       {   
             somfundo.getSom().stop();
+            if(d == 2){
+                
+                game.getSom().loop(); 
+           d = 1;
+           }
             con(g);
-            if(spaceship.getScore() == 20 || spaceship.getScore() == 40)
+            if(spaceship.getScore() == 40 || spaceship.getScore() == 100)
             dranMissionAccomplished(g);
        }
        else if(State == STATE.MENU){
            if(d == 0){
            gameover.getSom().stop();
            somfundo.getSom().loop(); 
-           d = 1;
+           d = 2;
            }
            menu.render(g);
-           qtd = 20;
+           
            
            
        }
        else if (State == STATE.GAMEOVER){
            menu.render2(g);
+           game.getSom().stop(); 
        if(d == 1){
           gameover.getSom().play(); 
           d = 0;
@@ -155,7 +171,7 @@ public final class Map extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Clear();
         
-        
+       
         updateSpaceship();   
         updateAliens();
         UpdateMissiles();         
@@ -169,7 +185,7 @@ public final class Map extends JPanel implements ActionListener {
     
     private void dranMissionAccomplished(Graphics g) {
 
-        String message = "MISSION ACCOMPLISHED";
+        String message = "MISSION ACCOMPLISHED LOADING...";
         Font font = new Font("Helvetica", Font.BOLD, 14);
         FontMetrics metric = getFontMetrics(font);
 
@@ -220,14 +236,14 @@ public final class Map extends JPanel implements ActionListener {
                 
                 count++;
                
-                 if (count == 80 && spaceship.getScore() == 20){
+                 if (count == 120 && spaceship.getScore() == 40){
                      count = 0;
-                     qtd = 40;
+                     qtd = 100;
                      
                  }
-                 else if(count == 80 && spaceship.getScore() == 40){
+                 else if(count == 120 && spaceship.getScore() == 100){
                      count = 0;
-                     qtd = 20;
+                     qtd = 40;
                     
                  }
           }

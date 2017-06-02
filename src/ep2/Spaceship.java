@@ -102,6 +102,7 @@ public class Spaceship extends Sprite {
     public void balaPerdida(){
         if(State == STATE.GAME)
         this.misseis.add(new Missile(x + width/3, y-20 + height/4));
+        som.getSom().play();
     }
 
     public void keyPressed(KeyEvent e) {
@@ -140,7 +141,7 @@ public class Spaceship extends Sprite {
         
         if(key == KeyEvent.VK_SPACE){
             balaPerdida();
-            som.getSom().play();
+            
         }
         if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_RIGHT) {
             speed_x = 0;
