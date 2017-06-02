@@ -10,31 +10,31 @@ public class Aliens extends Sprite {
     private int dano;
     private int score;
     
-    public Aliens(int x, int y) {
+    public Aliens(int x, int y,int qtd) {
         super(x, y);
-        Alen();   
+        Alen(qtd);   
         this.x = ThreadLocalRandom.current().nextInt(0,500);
     }
     
-    private void Alen(){   
-        setImagem(0);
+    private void Alen(int qtd){   
+        setImagem(qtd);
     }
     
     public void setImagem(int qtd){
-        if(qtd <= 20){
+        if(qtd < 20){
         loadImage("images/alien_EASY.png");
         setDanos(1); 
         setScore(1);
-        }else if(qtd > 20 && qtd <= 40){
+        }else if(qtd >= 20 && qtd < 40){
         loadImage("images/alien_MEDIUM.png");
         setVelocidade(4);
         setDanos(2); 
         setScore(2);
         }else {
         loadImage("images/alien_HARD.png");
-        setVelocidade(8);
+        setVelocidade(5);
         setDanos(4); 
-        setScore(5);
+        setScore(3);
         }
     }
     

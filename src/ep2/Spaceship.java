@@ -34,6 +34,7 @@ public class Spaceship extends Sprite {
     }
     
     private void thrust(){
+        if(State == STATE.GAME)
         loadImage("images/spaceship_thrust.png"); 
     }    
     public List<Missile> getMissiles(){
@@ -90,7 +91,7 @@ public class Spaceship extends Sprite {
         
     }
     public void balaPerdida(){
-        
+        if(State == STATE.GAME)
         this.misseis.add(new Missile(x + width/3, y-20 + height/4));
     }
 

@@ -18,13 +18,18 @@ import javax.swing.Timer;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public final class Map extends JPanel implements ActionListener {
 
     private final int SPACESHIP_X = 220;
-    private final int SPACESHIP_Y = 430;   
+    private final int SPACESHIP_Y = 430; 
+    private int i = 0;
+    private int qtd = 20;
+    private int count = 0;
     private final Timer timer_map;
     private final Timer timer_aliens;
     private final Image background;
+    private final Image backgrounds;
     private final Spaceship spaceship;
     public static Menu menu;
     private final ArrayList<Aliens> aliens = new ArrayList<>();
@@ -50,8 +55,12 @@ public final class Map extends JPanel implements ActionListener {
         
         setFocusable(true);
         setDoubleBuffered(true);
-        ImageIcon image = new ImageIcon("images/space.jpg");
+        ImageIcon image = new ImageIcon("images/images.gif");
         this.background = image.getImage();
+        
+        ImageIcon images = new ImageIcon("images/giphy.gif");
+        this.backgrounds = images.getImage();
+        
         menu = new Menu();
         spaceship = new Spaceship(SPACESHIP_X, SPACESHIP_Y);                     
         timer_map = new Timer(Game.getDelay(), this);     
@@ -59,7 +68,7 @@ public final class Map extends JPanel implements ActionListener {
         timer_aliens = new Timer(150, new ActionListener() {
                                             public void actionPerformed(ActionEvent evt) {
                                                 if(State == STATE.GAME)
-                                                    aliens.add(new Aliens(0, 0));
+                                                    aliens.add(new Aliens(0,0,spaceship.getScore()));
      
                                             }          
                                 });     
@@ -74,12 +83,17 @@ public final class Map extends JPanel implements ActionListener {
        
         
         super.paintComponent(g);
+        if(State == STATE.GAME || State == STATE.PAUSE) 
         g.drawImage(this.background, 0, 0, null); 
+        
+        if(State != STATE.GAME && State != STATE.PAUSE) 
+        g.drawImage(this.backgrounds, 0, 0, null); 
+        
         if(State == STATE.GAME){
         Graphics2D g2d = (Graphics2D)g;
         Font fnt1 = new Font("italic",Font.BOLD,20);
         g.setFont(fnt1);
-        g.setColor(Color.BLUE);
+        g.setColor(Color.WHITE);
         g.drawString("Pause",playButton.x + 17 ,playButton.y +20);
         g.setColor(Color.BLACK);
         g2d.draw(playButton);
@@ -87,25 +101,34 @@ public final class Map extends JPanel implements ActionListener {
         Graphics2D g2d = (Graphics2D)g;
         Font fnt1 = new Font("italic",Font.BOLD,20);
         g.setFont(fnt1);
-        g.setColor(Color.BLUE);
+        g.setColor(Color.WHITE);
         g.drawString("Play",playButton.x + 17 ,playButton.y +20);
         g.setColor(Color.BLACK);
             
         }
+        //if(State == STATE.GAME || State == STATE.PAUSE)   
         draw(g);
         Toolkit.getDefaultToolkit().sync();
     }
 
     private void draw(Graphics g) {
-       if(State == STATE.GAME || State == STATE.PAUSE)        
+       if(State == STATE.GAME || State == STATE.PAUSE) 
+       {
             con(g);
-       
+            if(spaceship.getScore() == 20 || spaceship.getScore() == 40)
+            dranMissionAccomplished(g);
+       }
        else if(State == STATE.MENU){
            
            
            menu.render(g);
+           qtd = 20;
+           
+           
        }
        else menu.render2(g);
+            
+           
        
                
     }
@@ -114,15 +137,20 @@ public final class Map extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         Clear();
+        
+        
         updateSpaceship();   
         updateAliens();
         UpdateMissiles();         
         checarColisoes();
-        repaint();    
+        repaint();
+        transicao();
+        //i++;
+        
         Clear();
     }
     
-    /*private void dranMissionAccomplished(Graphics g) {
+    private void dranMissionAccomplished(Graphics g) {
 
         String message = "MISSION ACCOMPLISHED";
         Font font = new Font("Helvetica", Font.BOLD, 14);
@@ -132,7 +160,7 @@ public final class Map extends JPanel implements ActionListener {
         g.setFont(font);
         g.drawString(message, (Game.getWidth() - metric.stringWidth(message)) / 2, Game.getHeight() / 2);
     }
-    
+    /*
     private void drawGameOver(Graphics g) {
 
         String message = "Game Over";
@@ -148,17 +176,48 @@ public final class Map extends JPanel implements ActionListener {
         if(State == STATE.GAME)
             spaceship.move();        
     }
-    
+   
     private void updateAliens(){
+        
         for (int i = 0; i < aliens.size(); i++){
             Aliens in = aliens.get(i);
-            in.setImagem(spaceship.getScore());
+            
             if(in.isVisible() && State == STATE.GAME){
 		in.move();
             }else if(!in.isVisible())
-                aliens.remove(i);                           			
+                aliens.remove(i);
+            
         }
+        
     }
+    private void transicao(){
+          if(spaceship.getScore() == qtd ){
+              
+            for (int i = 0; i < aliens.size() ; i++){
+                Aliens in = aliens.get(i);
+                
+                in.setVisible(false);
+                in.explode();
+                //aliens.remove(i);
+               
+                
+                count++;
+               
+                 if (count == 80 && spaceship.getScore() == 20){
+                     count = 0;
+                     qtd = 40;
+                     
+                 }
+                 else if(count == 80 && spaceship.getScore() == 40){
+                     count = 0;
+                     qtd = 20;
+                    
+                 }
+          }
+      
+       }
+    }
+    
     
     private void UpdateMissiles(){
         List<Missile> misseis = spaceship.getMissiles();
@@ -171,15 +230,23 @@ public final class Map extends JPanel implements ActionListener {
         }
     }
     public void Clear(){
-        if(State != STATE.GAME && State != STATE.PAUSE){
+        
+        if(State != STATE.GAME && State != STATE.PAUSE ){
             for (int i = 0; i < aliens.size(); i++){
                 Aliens in = aliens.get(i);
                 in.setVisible(false);
                 aliens.remove(i);                           			
         }
+            
+          List<Missile> misseis = spaceship.getMissiles();
+        for (int i = 0; i < misseis.size(); i++) {
+            Missile in = misseis.get(i);
+		in.setVisible(false);
+                 misseis.remove(i);               				
+        }
             spaceship.resetPosition();
             spaceship.setVisible(false);
-            
+           
             //spaceship = null;
             //new Spaceship(SPACESHIP_X, SPACESHIP_Y);
             spaceship.resetScore();

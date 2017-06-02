@@ -34,9 +34,11 @@ public class Menu {
     public Rectangle helpButton = new Rectangle(80+95,250,150,50);
     public Rectangle quitButton = new Rectangle(80+95,350,150,50);
     
+   
     
     public void render(Graphics g){
         Graphics2D g2d = (Graphics2D)g;
+        
         
         
         
@@ -75,12 +77,13 @@ public class Menu {
         g.setColor(Color.white);
         g.drawString("RANK",playButton.x + 42 ,playButton.y +30);
         g2d.draw(playButton);
-        g.drawString("RETURN",helpButton.x + 30 ,helpButton.y +30);
+        g.drawString("MENU",helpButton.x + 30 ,helpButton.y +30);
         g2d.draw(helpButton);
         g.drawString("QUIT",quitButton.x + 44 ,quitButton.y +30);
         g2d.draw(quitButton);
         
     }
+   
     
 
 }
