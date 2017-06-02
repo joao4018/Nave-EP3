@@ -2,6 +2,8 @@ package ep2;
 
 import ep2.Map.STATE;
 import static ep2.Map.State;
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,14 +13,21 @@ public class Spaceship extends Sprite {
     private static final int MAX_SPEED_X = 3;
     private static final int MAX_SPEED_Y = 3;
     private List<Missile> misseis;
+    private Sound som;
     private int lives = 5;
     private int score = 0;
     private int speed_x;
     private int speed_y;
-
+    
+    
     public Spaceship(int x, int y) {
         super(x, y);
+        
         misseis = new ArrayList<Missile>();
+        som = new Sound("tiro");
+        
+       // Som = Applet.newAudioClip(som.getSom());
+       
         
         initSpaceShip();
     }
@@ -129,9 +138,10 @@ public class Spaceship extends Sprite {
 
         int key = e.getKeyCode();
         
-        if(key == KeyEvent.VK_SPACE)
+        if(key == KeyEvent.VK_SPACE){
             balaPerdida();
-        
+            som.getSom().play();
+        }
         if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_RIGHT) {
             speed_x = 0;
         }

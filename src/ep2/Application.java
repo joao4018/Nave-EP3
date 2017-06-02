@@ -10,11 +10,12 @@ public class Application extends JFrame {
     
     public Application(){
         add(new Map());
-        setSize(Game.getWidth(), Game.getHeight());
+        setSize(495, Game.getHeight());
         setTitle("Space Combat Game");
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        
     }
     
     public static void main(String[] args) {

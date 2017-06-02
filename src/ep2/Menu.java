@@ -26,7 +26,7 @@ import java.awt.event.WindowEvent;
  *
  * @author joao
  */
-public class Menu {
+public class Menu extends JFrame {
     
  
     
@@ -41,7 +41,7 @@ public class Menu {
         
         
         
-        
+       
         
         Font fnt0 = new Font("italic",Font.BOLD,50);
         g.setFont(fnt0);
@@ -58,6 +58,7 @@ public class Menu {
         g2d.draw(helpButton);
         g.drawString("QUIT",quitButton.x + 44 ,quitButton.y +30);
         g2d.draw(quitButton);
+        
         
     }
     public void render2(Graphics g){

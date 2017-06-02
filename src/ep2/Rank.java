@@ -5,11 +5,14 @@
  */
 package ep2;
 
+import java.io.File;
+
 /**
  *
  * @author jhony
  */
 public class Rank {
+    File file;
     
     
     

@@ -14,6 +14,7 @@ public class Missile extends Sprite {
     public Missile(int x, int y) {
         super(x, y);
         loadImage("images/missile.png");
+        
     }
     public void move() {
         

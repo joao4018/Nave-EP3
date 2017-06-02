@@ -5,7 +5,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Aliens extends Sprite {
     
-    private static final int LARGURA_TELA = 500;
+    private static final int LARGURA_TELA = 480;
     private int VELOCIDADE = 2;
     private int dano;
     private int score;
@@ -13,7 +13,7 @@ public class Aliens extends Sprite {
     public Aliens(int x, int y,int qtd) {
         super(x, y);
         Alen(qtd);   
-        this.x = ThreadLocalRandom.current().nextInt(0,500);
+        this.x = ThreadLocalRandom.current().nextInt(0,LARGURA_TELA);
     }
     
     private void Alen(int qtd){   

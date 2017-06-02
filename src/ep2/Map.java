@@ -25,18 +25,21 @@ public final class Map extends JPanel implements ActionListener {
     private final int SPACESHIP_Y = 430; 
     private int i = 0;
     private int qtd = 20;
-    private int count = 0;
+    private int count = 0, d = 0;
+    
     private final Timer timer_map;
     private final Timer timer_aliens;
     private final Image background;
     private final Image backgrounds;
     private final Spaceship spaceship;
     public static Menu menu;
+    private Sound som;
+    private Sound somfundo;
+    private Sound gameover;
+   
     private final ArrayList<Aliens> aliens = new ArrayList<>();
     public Rectangle playButton = new Rectangle(380,15,100,30);
-    private void keyPressed(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
     public static enum STATE{
         MENU,
         GAME,
@@ -52,7 +55,9 @@ public final class Map extends JPanel implements ActionListener {
         
         addKeyListener(new KeyListerner());
         addMouseListener(new MouseInput());
-        
+        som = new Sound("boom");
+        somfundo = new Sound("fundo");
+        gameover = new Sound("gameover");
         setFocusable(true);
         setDoubleBuffered(true);
         ImageIcon image = new ImageIcon("images/images.gif");
@@ -112,21 +117,32 @@ public final class Map extends JPanel implements ActionListener {
     }
 
     private void draw(Graphics g) {
+        
+        
        if(State == STATE.GAME || State == STATE.PAUSE) 
-       {
+       {    d = 1;
+            somfundo.getSom().stop();
             con(g);
             if(spaceship.getScore() == 20 || spaceship.getScore() == 40)
             dranMissionAccomplished(g);
        }
        else if(State == STATE.MENU){
-           
-           
+           if(d == 0){
+           somfundo.getSom().loop(); 
+           d = 1;
+           }
            menu.render(g);
            qtd = 20;
            
            
        }
-       else menu.render2(g);
+       else if (State == STATE.GAMEOVER){
+           menu.render2(g);
+       if(d == 1){
+          gameover.getSom().play(); 
+          d = 0;
+           }
+       }
             
            
        
@@ -242,7 +258,8 @@ public final class Map extends JPanel implements ActionListener {
         for (int i = 0; i < misseis.size(); i++) {
             Missile in = misseis.get(i);
 		in.setVisible(false);
-                 misseis.remove(i);               				
+                 misseis.remove(i);
+                 
         }
             spaceship.resetPosition();
             spaceship.setVisible(false);
@@ -274,6 +291,7 @@ public final class Map extends JPanel implements ActionListener {
                             spaceship.setDano(in.getDanos());
                             tempInimigo.setVisible(false);                               
                             in.explode();
+                            som.getSom().play();
                             if (spaceship.getDano() <= 0){
                             State  = State.GAMEOVER;
                             spaceship.setVisible(false);
@@ -296,6 +314,7 @@ public final class Map extends JPanel implements ActionListener {
                                     tempInimigo.setVisible(false);
                                     tempMissel.setVisible(false);
                                     in.explode();
+                                    som.getSom().play();
                                     spaceship.setScore(in.getScore());
 				}
 			}
