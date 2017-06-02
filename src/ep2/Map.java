@@ -128,6 +128,7 @@ public final class Map extends JPanel implements ActionListener {
        }
        else if(State == STATE.MENU){
            if(d == 0){
+           gameover.getSom().stop();
            somfundo.getSom().loop(); 
            d = 1;
            }

@@ -11,7 +11,7 @@ public class Application extends JFrame {
     public Application(){
         add(new Map());
         setSize(495, Game.getHeight());
-        setTitle("Space Combat Game");
+        setTitle("Space Game");
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
