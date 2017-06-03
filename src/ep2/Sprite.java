@@ -21,10 +21,13 @@ public abstract class Sprite {
     }
 
     protected void loadImage(String imageName) {
-
-        ImageIcon ii = new ImageIcon(imageName);
-        image = ii.getImage();
-        getImageDimensions();
+        ImageIcon ii;
+       
+            ii = new ImageIcon(imageName);
+            image = ii.getImage();
+            getImageDimensions();
+        
+       
     }
     
     protected void getImageDimensions() {

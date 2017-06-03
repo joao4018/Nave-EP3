@@ -18,8 +18,17 @@ public class Sound {
     private URL som ;  //= Sound.class.getResource(String name);
     private AudioClip Som; 
     public Sound(String nome){
-        som = Sound.class.getResource("Sounds//"+ nome +".wav");
-        Som = Applet.newAudioClip(som);
+        try{
+            som = Sound.class.getResource("Sounds//"+ nome +".wav");
+            Som = Applet.newAudioClip(som);
+        }catch(Exception e){
+            System.out.println("Arquivo de som '"+ nome +"' nao encontrado!!");
+            System.out.println("Se voce alterou alguma pasta do game ou houve falha no download");
+            System.out.println("Verifique se "+nome+" existe na pasta Sound");
+            System.out.println("Impossivel continuar a execucao");
+            System.exit(0);
+        }
+       
     }
     
     public AudioClip getSom(){

@@ -34,6 +34,7 @@ public final class Map extends JPanel implements ActionListener {
     private final Image backgroundsSpace;
     private final Spaceship spaceship;
     public static Menu menu;
+    private Rank rank;
     private Sound som;
     private Sound somfundo;
     private Sound gameover;
@@ -63,7 +64,8 @@ public final class Map extends JPanel implements ActionListener {
         game = new Sound("fundoGame");
         setFocusable(true);
         setDoubleBuffered(true);
-        ImageIcon image = new ImageIcon("images/images.gif");
+        
+        ImageIcon image = new ImageIcon("Rank/rank.txt");
         this.background = image.getImage();
         
         ImageIcon images = new ImageIcon("images/giphy.gif");
@@ -71,7 +73,7 @@ public final class Map extends JPanel implements ActionListener {
         
         ImageIcon imagesSpace = new ImageIcon("images/space.jpg");
         this.backgroundsSpace = imagesSpace.getImage();
-        
+        rank = new Rank();
         menu = new Menu();
         spaceship = new Spaceship(SPACESHIP_X, SPACESHIP_Y);                     
         timer_map = new Timer(Game.getDelay(), this);     
@@ -101,24 +103,24 @@ public final class Map extends JPanel implements ActionListener {
            g.drawImage(this.backgroundsSpace, 0, 0, null); 
         
         else if(State != STATE.GAME && State != STATE.PAUSE) 
-        g.drawImage(this.backgrounds, 0, 0, null); 
+            g.drawImage(this.backgrounds, 0, 0, null); 
         
         if(State == STATE.GAME){
-        Graphics2D g2d = (Graphics2D)g;
-        g.drawImage(this.background, 0, 0, null); 
-        Font fnt1 = new Font("italic",Font.BOLD,20);
-        g.setFont(fnt1);
-        g.setColor(Color.WHITE);
-        g.drawString("Pause",playButton.x + 17 ,playButton.y +20);
-        g.setColor(Color.BLACK);
-        g2d.draw(playButton);
+            Graphics2D g2d = (Graphics2D)g;
+            g.drawImage(this.background, 0, 0, null); 
+            Font fnt1 = new Font("italic",Font.BOLD,20);
+            g.setFont(fnt1);
+            g.setColor(Color.WHITE);
+            g.drawString("Pause",playButton.x + 17 ,playButton.y +20);
+            g.setColor(Color.BLACK);
+            g2d.draw(playButton);
         }else if(State == STATE.PAUSE){ 
-        Graphics2D g2d = (Graphics2D)g;
-        Font fnt1 = new Font("italic",Font.BOLD,20);
-        g.setFont(fnt1);
-        g.setColor(Color.WHITE);
-        g.drawString("Play",playButton.x + 17 ,playButton.y +20);
-        g.setColor(Color.BLACK);
+            Graphics2D g2d = (Graphics2D)g;
+            Font fnt1 = new Font("italic",Font.BOLD,20);
+            g.setFont(fnt1);
+            g.setColor(Color.WHITE);
+            g.drawString("Play",playButton.x + 17 ,playButton.y +20);
+            g.setColor(Color.BLACK);
             
         }
         //if(State == STATE.GAME || State == STATE.PAUSE)   
@@ -135,30 +137,32 @@ public final class Map extends JPanel implements ActionListener {
             if(d == 2){
                 
                 game.getSom().loop(); 
-           d = 1;
+                d = 1;
            }
             con(g);
             if(spaceship.getScore() == 40 || spaceship.getScore() == 100)
-            dranMissionAccomplished(g);
+                dranMissionAccomplished(g);
        }
        else if(State == STATE.MENU){
-           if(d == 0){
-           gameover.getSom().stop();
-           somfundo.getSom().loop(); 
-           d = 2;
-           }
-           menu.render(g);
+                if(d == 0){
+                    gameover.getSom().stop();
+                    somfundo.getSom().loop();
+                    
+                    d = 2;
+                }
+                 menu.menuInicial(g);
            
            
            
        }
        else if (State == STATE.GAMEOVER){
-           menu.render2(g);
+           menu.menuFinal(g);
            game.getSom().stop(); 
-       if(d == 1){
-          gameover.getSom().play(); 
-          d = 0;
-           }
+                if(d == 1){
+                    rank.escritor("joao",spaceship.getScore());
+                    gameover.getSom().play(); 
+                    d = 0;
+                }
        }
             
            
@@ -169,18 +173,16 @@ public final class Map extends JPanel implements ActionListener {
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        Clear();
-        
-       
+        transicao();
+        Clear();              
         updateSpaceship();   
         updateAliens();
         UpdateMissiles();         
-        checarColisoes();
+        checarColisoes();               
         repaint();
-        transicao();
         //i++;
         
-        Clear();
+        
     }
     
     private void dranMissionAccomplished(Graphics g) {

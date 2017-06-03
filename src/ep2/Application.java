@@ -8,9 +8,10 @@ import javax.swing.JFrame;
 public class Application extends JFrame {
     
     
-    public Application(){
+    public Application()
+    {
         add(new Map());
-        setSize(495, Game.getHeight());
+        setSize(Game.getWidth(), Game.getHeight());
         setTitle("Space Game");
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -18,17 +19,16 @@ public class Application extends JFrame {
         
     }
     
-    public static void main(String[] args) {
-        
+    public static void main(String[] args)
+    {
         menu = new Menu();
-        
-        EventQueue.invokeLater(new Runnable() {
-            public void run(){
-                
-                Application app = new Application();
-                
-                app.setVisible(true);
-            }
-        });
+        EventQueue.invokeLater(new Runnable()
+                               {
+                                    public void run()
+                                    {               
+                                        Application app = new Application();
+                                        app.setVisible(true);
+                                    }
+                                });
     }
 }

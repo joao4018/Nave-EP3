@@ -1,7 +1,7 @@
 package ep2;
 public final class Game {
     
-    private static final int WIDTH = 500;
+    private static final int WIDTH = 495;
     private static final int HEIGHT = 500;
     private static final int DELAY = 25;
     

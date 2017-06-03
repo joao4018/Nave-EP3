@@ -36,19 +36,12 @@ public class Menu extends JFrame {
     
    
     
-    public void render(Graphics g){
+    public final void menuInicial(Graphics g){
         Graphics2D g2d = (Graphics2D)g;
-        
-        
-        
-       
-        
         Font fnt0 = new Font("italic",Font.BOLD,50);
         g.setFont(fnt0);
         g.setColor(Color.red);
         g.drawString("SPACE GAME",80,100);
-        
-        
         Font fnt1 = new Font("italic",Font.BOLD,20);
         g.setFont(fnt1);
         g.setColor(Color.white);
@@ -57,22 +50,14 @@ public class Menu extends JFrame {
         g.drawString("HELP",helpButton.x + 42 ,helpButton.y +30);
         g2d.draw(helpButton);
         g.drawString("QUIT",quitButton.x + 44 ,quitButton.y +30);
-        g2d.draw(quitButton);
-        
-        
+        g2d.draw(quitButton);   
     }
-    public void render2(Graphics g){
+    public final void menuFinal(Graphics g){
         Graphics2D g2d = (Graphics2D)g;
-        
-        
-        
-        
         Font fnt0 = new Font("arial",Font.BOLD,50);
         g.setFont(fnt0);
         g.setColor(Color.red);
-        g.drawString("GAME OVER",80,100);
-        
-        
+        g.drawString("GAME OVER",80,100);        
         Font fnt1 = new Font("italic",Font.BOLD,20);
         g.setFont(fnt1);
         g.setColor(Color.white);
