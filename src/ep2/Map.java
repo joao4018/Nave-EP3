@@ -35,10 +35,12 @@ public final class Map extends JPanel implements ActionListener {
     private final Spaceship spaceship;
     public static Menu menu;
     private Rank rank;
+    private Cadastro cadastro;
     private Sound som;
     private Sound somfundo;
     private Sound gameover;
     private Sound game;
+    private int cadastrue = 1;
    
     private final ArrayList<Aliens> aliens = new ArrayList<>();
     public Rectangle playButton = new Rectangle(380,15,100,30);
@@ -49,7 +51,8 @@ public final class Map extends JPanel implements ActionListener {
         HELP,
         GAMEOVER,
         PAUSE,
-        PLAY
+        PLAY,
+        CADASTRO
     };
     
     public static STATE State = STATE.MENU;
@@ -65,7 +68,7 @@ public final class Map extends JPanel implements ActionListener {
         setFocusable(true);
         setDoubleBuffered(true);
         
-        ImageIcon image = new ImageIcon("Rank/rank.txt");
+        ImageIcon image = new ImageIcon("images/images.gif");
         this.background = image.getImage();
         
         ImageIcon images = new ImageIcon("images/giphy.gif");
@@ -75,6 +78,7 @@ public final class Map extends JPanel implements ActionListener {
         this.backgroundsSpace = imagesSpace.getImage();
         rank = new Rank();
         menu = new Menu();
+        cadastro = new Cadastro();
         spaceship = new Spaceship(SPACESHIP_X, SPACESHIP_Y);                     
         timer_map = new Timer(Game.getDelay(), this);     
         timer_map.start();
@@ -105,7 +109,14 @@ public final class Map extends JPanel implements ActionListener {
         else if(State != STATE.GAME && State != STATE.PAUSE) 
             g.drawImage(this.backgrounds, 0, 0, null); 
         
+        
+        if(State == STATE.CADASTRO && cadastrue == 1){
+            //rank.render();
+            cadastro.Cadastro();
+            cadastrue = 0;
+        }
         if(State == STATE.GAME){
+            cadastro = new Cadastro();
             Graphics2D g2d = (Graphics2D)g;
             g.drawImage(this.background, 0, 0, null); 
             Font fnt1 = new Font("italic",Font.BOLD,20);
@@ -114,6 +125,7 @@ public final class Map extends JPanel implements ActionListener {
             g.drawString("Pause",playButton.x + 17 ,playButton.y +20);
             g.setColor(Color.BLACK);
             g2d.draw(playButton);
+            cadastrue = 1;
         }else if(State == STATE.PAUSE){ 
             Graphics2D g2d = (Graphics2D)g;
             Font fnt1 = new Font("italic",Font.BOLD,20);
@@ -145,6 +157,7 @@ public final class Map extends JPanel implements ActionListener {
        }
        else if(State == STATE.MENU){
                 if(d == 0){
+                    
                     gameover.getSom().stop();
                     somfundo.getSom().loop();
                     
@@ -159,7 +172,8 @@ public final class Map extends JPanel implements ActionListener {
            menu.menuFinal(g);
            game.getSom().stop(); 
                 if(d == 1){
-                    rank.escritor("joao",spaceship.getScore());
+                    rank.escritor(cadastro.getNome(),spaceship.getScore());
+                    
                     gameover.getSom().play(); 
                     d = 0;
                 }

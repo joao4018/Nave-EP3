@@ -26,7 +26,7 @@ public class MouseInput implements MouseListener{
         //public Rectangle playButton = new Rectangle(380,15,100,30);
         if(Map.State == Map.State.MENU){
             if(mx >= 200 && mx <= 80 +220 && my >= 150 && my <= 200 ) 
-            Map.State = Map.State.GAME;
+            Map.State = Map.State.CADASTRO;
         
             else if(mx >= 200 && mx <= 80 +220 && my >= 350 && my <= 400)
                     System.exit(1);

@@ -37,6 +37,7 @@ public class Menu extends JFrame {
    
     
     public final void menuInicial(Graphics g){
+       
         Graphics2D g2d = (Graphics2D)g;
         Font fnt0 = new Font("italic",Font.BOLD,50);
         g.setFont(fnt0);
@@ -51,8 +52,10 @@ public class Menu extends JFrame {
         g2d.draw(helpButton);
         g.drawString("QUIT",quitButton.x + 44 ,quitButton.y +30);
         g2d.draw(quitButton);   
+    
     }
     public final void menuFinal(Graphics g){
+        
         Graphics2D g2d = (Graphics2D)g;
         Font fnt0 = new Font("arial",Font.BOLD,50);
         g.setFont(fnt0);
