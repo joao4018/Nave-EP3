@@ -349,6 +349,10 @@ public final class Map extends JPanel implements ActionListener {
                                     in.explode();
                                     som.getSom().play();
                                     spaceship.setScore(in.getScore());
+                                    if (spaceship.getScore() >= 300){
+                                        State  = State.GAMEOVER;
+                                        spaceship.setVisible(false);
+                                    }
 				}
 			}
 		}
